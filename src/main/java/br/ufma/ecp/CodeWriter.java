@@ -41,13 +41,13 @@ public class CodeWriter {
         return moduleName + "." + index;
     }
 
-    public void  writeInit() {
-        write("@256");
-        write("D=A");
-        write("@SP");
-        write("M=D");
-        writeCall("Sys.init", 0);
-    }
+    // public void  writeInit() {
+    //     write("@256");
+    //     write("D=A");
+    //     write("@SP");
+    //     write("M=D");
+    //     writeCall("Sys.init", 0);
+    // }
     
 
     void writePush(String seg, int index) {
@@ -234,187 +234,184 @@ public class CodeWriter {
         labelCount++;
     }
 
-    void  writeLabel(String label ) {
-        write("(" + label + ")");
-    }
+    // void  writeLabel(String label ) {
+    //     write("(" + label + ")");
+    // }
     
-    void  writeGoto(String label) {
-        write("@" + label);
-        write("0;JMP");
-    }
+    // void  writeGoto(String label) {
+    //     write("@" + label);
+    //     write("0;JMP");
+    // }
     
-    void  writeIf(String label ) {
-        write("@SP");
-        write("AM=M-1");
-        write("D=M");
-        write("M=0");
-        write("@" + label);
-        write("D;JNE");
+    // void  writeIf(String label ) {
+    //     write("@SP");
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("M=0");
+    //     write("@" + label);
+    //     write("D;JNE");
     
-    }
+    // }
     
-    void  writeFunction(String funcName , int nLocals ) {
+    // void  writeFunction(String funcName , int nLocals ) {
     
-        var loopLabel = funcName + "_INIT_LOCALS_LOOP";
-        var loopEndLabel = funcName + "_INIT_LOCALS_END";
+    //     var loopLabel = funcName + "_INIT_LOCALS_LOOP";
+    //     var loopEndLabel = funcName + "_INIT_LOCALS_END";
     
     
-        write("(" + funcName + ")" + "// initializa local variables");
-        write(String.format("@%d", nLocals));
-        write("D=A");
-        write("@R13"); // temp
-        write("M=D");
-        write("(" + loopLabel + ")");
-        write("@" + loopEndLabel);
-        write("D;JEQ");
-        write("@0");
-        write("D=A");
-        write("@SP");
-        write("A=M");
-        write("M=D");
-        write("@SP");
-        write("M=M+1");
-        write("@R13");
-        write("MD=M-1");
-        write("@" + loopLabel);
-        write("0;JMP");
-        write("(" + loopEndLabel + ")");
+    //     write("(" + funcName + ")" + "// initializa local variables");
+    //     write(String.format("@%d", nLocals));
+    //     write("D=A");
+    //     write("@R13"); // temp
+    //     write("M=D");
+    //     write("(" + loopLabel + ")");
+    //     write("@" + loopEndLabel);
+    //     write("D;JEQ");
+    //     write("@0");
+    //     write("D=A");
+    //     write("@SP");
+    //     write("A=M");
+    //     write("M=D");
+    //     write("@SP");
+    //     write("M=M+1");
+    //     write("@R13");
+    //     write("MD=M-1");
+    //     write("@" + loopLabel);
+    //     write("0;JMP");
+    //     write("(" + loopEndLabel + ")");
     
-    }
+    // }
     
 
-    void  writeFramePush(String value) {
-        write("@" + value);
-        write("D=M");
-        write("@SP");
-        write("A=M");
-        write("M=D");
-        write("@SP");
-        write("M=M+1");
-    }
+    // void  writeFramePush(String value) {
+    //     write("@" + value);
+    //     write("D=M");
+    //     write("@SP");
+    //     write("A=M");
+    //     write("M=D");
+    //     write("@SP");
+    //     write("M=M+1");
+    // }
 
 
-    void  writeCall(String funcName , int numArgs) {
+    // void  writeCall(String funcName , int numArgs) {
 
-        /*
-           push return-address     // (using the label declared below)
-           push LCL                // save LCL of the calling function
-           push ARG                // save ARG of the calling function
-           push THIS               // save THIS of the calling function
-           push THAT               // save THAT of the calling function
-           ARG = SP-n-5            // reposition ARG (n = number of args)
-           LCL = SP                // reposiiton LCL
-           goto f                  // transfer control
-           (return-address)        // declare a label for the return-address
-        */
+    //     /*
+    //        push return-address     // (using the label declared below)
+    //        push LCL                // save LCL of the calling function
+    //        push ARG                // save ARG of the calling function
+    //        push THIS               // save THIS of the calling function
+    //        push THAT               // save THAT of the calling function
+    //        ARG = SP-n-5            // reposition ARG (n = number of args)
+    //        LCL = SP                // reposiiton LCL
+    //        goto f                  // transfer control
+    //        (return-address)        // declare a label for the return-address
+    //     */
     
-        var comment = String.format("// call %s %d", funcName, numArgs);
+    //     var comment = String.format("// call %s %d", funcName, numArgs);
     
-        var returnAddr = String.format("%s_RETURN_%d", funcName, callCount);
-        callCount++;
+    //     var returnAddr = String.format("%s_RETURN_%d", funcName, callCount);
+    //     callCount++;
     
-        write(String.format("@%s %s", returnAddr, comment)); // push return-addr
-        write("D=A");
-        write("@SP");
-        write("A=M");
-        write("M=D");
-        write("@SP");
-        write("M=M+1");
+    //     write(String.format("@%s %s", returnAddr, comment)); // push return-addr
+    //     write("D=A");
+    //     write("@SP");
+    //     write("A=M");
+    //     write("M=D");
+    //     write("@SP");
+    //     write("M=M+1");
     
-        writeFramePush("LCL");
-        writeFramePush("ARG");
-        writeFramePush("THIS");
-        writeFramePush("THAT");
+    //     writeFramePush("LCL");
+    //     writeFramePush("ARG");
+    //     writeFramePush("THIS");
+    //     writeFramePush("THAT");
     
-        write(String.format("@%d", numArgs)); // ARG = SP-n-5
-        write("D=A");
-        write("@5");
-        write("D=D+A");
-        write("@SP");
-        write("D=M-D");
-        write("@ARG");
-        write("M=D");
+    //     write(String.format("@%d", numArgs)); // ARG = SP-n-5
+    //     write("D=A");
+    //     write("@5");
+    //     write("D=D+A");
+    //     write("@SP");
+    //     write("D=M-D");
+    //     write("@ARG");
+    //     write("M=D");
     
-        write("@SP") ;// LCL = SP
-        write("D=M");
-        write("@LCL");
-        write("M=D");
+    //     write("@SP") ;// LCL = SP
+    //     write("D=M");
+    //     write("@LCL");
+    //     write("M=D");
     
-        writeGoto(funcName);
+    //     writeGoto(funcName);
     
-        write("(" + returnAddr + ")"); // (return-address)
+    //     write("(" + returnAddr + ")"); // (return-address)
     
-    }
+    // }
     
-    void  writeReturn() {
+    // void  writeReturn() {
     
-        /*
-           FRAME = LCL         // FRAME is a temporary var
-           RET = *(FRAME-5)    // put the return-address in a temporary var
-           *ARG = pop()        // reposition the return value for the caller
-           SP = ARG + 1        // restore SP of the caller
-           THAT = *(FRAME - 1) // restore THAT of the caller
-           THIS = *(FRAME - 2) // restore THIS of the caller
-           ARG = *(FRAME - 3)  // restore ARG of the caller
-           LCL = *(FRAME - 4)  // restore LCL of the caller
-           goto RET            // goto return-address (in the caller's code)
-        */
+    //     /*
+    //        FRAME = LCL         // FRAME is a temporary var
+    //        RET = *(FRAME-5)    // put the return-address in a temporary var
+    //        *ARG = pop()        // reposition the return value for the caller
+    //        SP = ARG + 1        // restore SP of the caller
+    //        THAT = *(FRAME - 1) // restore THAT of the caller
+    //        THIS = *(FRAME - 2) // restore THIS of the caller
+    //        ARG = *(FRAME - 3)  // restore ARG of the caller
+    //        LCL = *(FRAME - 4)  // restore LCL of the caller
+    //        goto RET            // goto return-address (in the caller's code)
+    //     */
     
-        write("@LCL"); // FRAME = LCL
-        write("D=M");
+    //     write("@LCL"); // FRAME = LCL
+    //     write("D=M");
     
-        write("@R13"); // R13 -> FRAME
-        write("M=D");
+    //     write("@R13"); // R13 -> FRAME
+    //     write("M=D");
     
-        write("@5") ;// RET = *(FRAME-5)
-        write("A=D-A");
-        write("D=M");
-        write("@R14"); // R14 -> RET
-        write("M=D");
+    //     write("@5") ;// RET = *(FRAME-5)
+    //     write("A=D-A");
+    //     write("D=M");
+    //     write("@R14"); // R14 -> RET
+    //     write("M=D");
     
-        write("@SP") ;// *ARG = pop()
-        write("AM=M-1");
-        write("D=M");
-        write("@ARG");
-        write("A=M");
-        write("M=D");
+    //     write("@SP") ;// *ARG = pop()
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("@ARG");
+    //     write("A=M");
+    //     write("M=D");
     
-        write("D=A"); // SP = ARG+1
-        write("@SP");
-        write("M=D+1");
+    //     write("D=A"); // SP = ARG+1
+    //     write("@SP");
+    //     write("M=D+1");
     
-        write("@R13"); // THAT = *(FRAME-1)
-        write("AM=M-1");
-        write("D=M");
-        write("@THAT");
-        write("M=D");
+    //     write("@R13"); // THAT = *(FRAME-1)
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("@THAT");
+    //     write("M=D");
     
-        write("@R13") ;// THIS = *(FRAME-2)
-        write("AM=M-1");
-        write("D=M");
-        write("@THIS");
-        write("M=D");
+    //     write("@R13") ;// THIS = *(FRAME-2)
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("@THIS");
+    //     write("M=D");
     
-        write("@R13"); // ARG = *(FRAME-3)
-        write("AM=M-1");
-        write("D=M");
-        write("@ARG");
-        write("M=D");
+    //     write("@R13"); // ARG = *(FRAME-3)
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("@ARG");
+    //     write("M=D");
     
-        write("@R13") ;// LCL = *(FRAME-4)
-        write("AM=M-1");
-        write("D=M");
-        write("@LCL");
-        write("M=D");
+    //     write("@R13") ;// LCL = *(FRAME-4)
+    //     write("AM=M-1");
+    //     write("D=M");
+    //     write("@LCL");
+    //     write("M=D");
     
-        write("@R14"); // goto RET
-        write("A=M");
-        write("0;JMP");
+    //     write("@R14"); // goto RET
+    //     write("A=M");
+    //     write("0;JMP");
     
-    }
-
-
-    
+    // }
     
     private void write(String s) {
         output.append(String.format("%s\n", s));

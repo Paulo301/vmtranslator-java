@@ -16,7 +16,7 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
-           "args": "/home/paulo/vmtranslator-java/src/test/07/StackArithmetic/StackTest",
+           "args": "/home/paulo/vmtranslator-java/src/test/07/MemoryAccess/StaticTest",
             "mainClass": "br.ufma.ecp.App",
             "projectName": "vmtranslator"
         }
