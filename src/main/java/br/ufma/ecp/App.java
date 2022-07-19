@@ -140,7 +140,7 @@ public class App
             System.out.println(outputFileName);
             CodeWriter code = new CodeWriter(outputFileName);
 
-            code.writeInit();
+            // code.writeInit();
 
             for (File f : file.listFiles()) {
                 if (f.isFile() && f.getName().endsWith(".vm")) {
