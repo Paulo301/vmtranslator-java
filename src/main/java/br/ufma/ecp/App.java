@@ -84,29 +84,29 @@ public class App
                     code.writePop(command.args.get(0), Integer.parseInt(command.args.get(1)));
                     break;
 
-            //   case GOTO:
-            //         code.writeGoto(command.args.get(0));
-            //         break;
+              case GOTO:
+                    code.writeGoto(command.args.get(0));
+                    break;
                 
-            //    case IF:
-            //         code.writeIf(command.args.get(0));
-            //         break;
+               case IF:
+                    code.writeIf(command.args.get(0));
+                    break;
 
-            //   case LABEL:
-            //         code.writeLabel(command.args.get(0));
-            //         break;
+              case LABEL:
+                    code.writeLabel(command.args.get(0));
+                    break;
                   
-            //  case RETURN:
-            //         code.writeReturn();
-            //         break;
+             case RETURN:
+                    code.writeReturn();
+                    break;
 
-            //  case CALL:
-            //         code.writeCall(command.args.get(0), Integer.parseInt(command.args.get(1)));
-            //         break;
+             case CALL:
+                    code.writeCall(command.args.get(0), Integer.parseInt(command.args.get(1)));
+                    break;
 
-            // case FUNCTION:
-            //         code.writeFunction(command.args.get(0), Integer.parseInt(command.args.get(1)));
-            //         break;
+            case FUNCTION:
+                    code.writeFunction(command.args.get(0), Integer.parseInt(command.args.get(1)));
+                    break;
 
 
                 default:
